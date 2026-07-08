@@ -223,7 +223,9 @@ The CLI generator is useful, but it often creates placeholders that should be cl
 | [React UI Components](../../docs/framework/views/react-ui) | Reference for Hubleto React UI usage. |
 | [Sample `CarRental` app](https://github.com/mrgopes/hubleto-car-rental) | Source code of a sample custom app. |
 
-The webinar recording for this lesson will be added after the live session.
+## Archived livestream
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/APYWRZ6r3l8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Do you have any questions?
 

@@ -127,6 +127,10 @@ If you open `Views/Cars.twig`, you will see how seamlessly the React data grid i
 | [React UI Components](../../docs/framework/views/react-ui) | How to use Hubleto's built-in React components in your views. |
 | [Sample `CarRental` app](https://github.com/mrgopes/hubleto-car-rental) | Source code of the completed CarRental app. |
 
+## Archived livestream
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1LeP0r5-JLo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Do you have any questions?
 
 Do you have any questions or comments? Leave us a message in the community portal.

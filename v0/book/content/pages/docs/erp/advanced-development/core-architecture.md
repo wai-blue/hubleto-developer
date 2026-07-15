@@ -22,7 +22,7 @@ Diagram below illustrates the overal architecture of the Hubleto platform.
 ║ └────────────────────────────────────────────────────────────────────────────────────┘ ║
 ║    ↓                                                                                   ║
 ║ ┌────────────────────────────────────────────────────────────────────────────────────┐ ║
-║ │ ADIOS Framework                                                                    │ ║
+║ │ Hubleto Framework                                                                  │ ║
 ║ │────────────────────────────────────────────────────────────────────────────────────│ ║
 ║ │ Application front-end                    │ Application back-end                    │ ║
 ║ │ (Components, Views)                      │ (Controllers, Models, Database)         │ ║
@@ -56,10 +56,6 @@ In most cases, customizations are implemented in two steps:
 
   * implement your custom, fully separated class
   * modify `\Hubleto\Erp` class in `src/Main.php` to use your new class.
-
-## Adios framework
-
-Hubleto uses Adios framework. Read more about this framework [here](https://github.com/wai-blue/adios).
 
 ## Default features
 

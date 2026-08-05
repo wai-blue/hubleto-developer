@@ -297,6 +297,10 @@ When possible, keep general UI behavior in the DescriptionAPI and use custom Rea
 | [Sample `CarRental` app](https://github.com/mrgopes/hubleto-car-rental) | Source code of a sample custom app used in previous lessons. |
 | [Hubleto React UI source code](https://github.com/hubleto/react-ui) | Source code of the ReactUi component library. |
 
+## Archived livestream
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UQclL0OKL3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Do you have any questions?
 
 Do you have any questions or comments? Leave us a message in the community portal.

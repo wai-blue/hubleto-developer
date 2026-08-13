@@ -421,7 +421,7 @@ Description defaults are convenience values for the form. They are not database 
 
 `includeRelations` identifies model relations relevant to the form. Relation names must match relations already declared by the model.
 
-Only include relations the form actually uses. Relation declaration and loading belong to the model and record manager and are covered in [Lesson 8](lesson-8).
+Only include relations the form actually uses. Relation declaration is introduced in [Lesson 8](lesson-8), while relation loading and saving are covered in [Lesson 9](lesson-9).
 
 ### Form permissions
 

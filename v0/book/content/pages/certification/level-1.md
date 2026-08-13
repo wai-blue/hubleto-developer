@@ -116,11 +116,11 @@ The certification course is composed of several lessons. Each lesson covers a sp
 <a class="btn" href="level-1/lesson-8"><span class="text">Open lesson #8</span></a>
 
 ## Lesson #9: Models, RecordManagers and Migrations, part 2
-  - Overview of Model and RecordManager concepts.
-  - Definition of relations.
-  - Built-in record-manipulation API (record/save, record/delete, ...).
-  - Practical examples for belongsTo and hasMany relations.
-  - Customizing prepareReadQuery().
+  - Controlling relation loading for tables and forms.
+  - Understanding table, form and lookup read pipelines.
+  - Saving, validating and normalizing related records.
+  - Defining indexes and unique constraints.
+  - Evolving an existing database schema with additional migrations.
 
 <a class="btn" href="level-1/lesson-9"><span class="text">Open lesson #9</span></a>
 

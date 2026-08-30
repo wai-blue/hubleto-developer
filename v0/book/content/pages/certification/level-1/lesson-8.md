@@ -98,7 +98,6 @@ When you use the standard Eloquent-based record manager, a relation is declared:
 The `$relations` array gives Hubleto structured metadata that is later used by features such as:
 
 * relation-aware reading,
-* nested save and validation,
 * form and table data preparation,
 * recursive relation loading with controlled depth.
 
@@ -236,16 +235,12 @@ Hubleto provides standard record API endpoints such as:
 
 These are part of the standard records API.
 
-### `recordSave()` is the main save entry point
+### `recordSave()` is the standard high-level save entry point
 
 In the standard save flow, the backend calls:
 
 ```php
-$savedRecord = $this->model->record->recordSave(
-  $record,
-  0,
-  $saveRelations
-);
+$savedRecord = $this->model->record->recordSave($record);
 ```
 
 This is the important part. Standard table and form saving does not directly call `create()` or `update()`. It goes through Hubleto's `recordSave()` API.
@@ -253,11 +248,9 @@ This is the important part. Standard table and form saving does not directly cal
 The `recordSave()` method handles:
 
 * create vs. update decision,
-* permission checks,
 * validation,
 * callbacks,
-* normalization,
-* saving selected child relations.
+* normalization.
 
 That is why `recordSave()` is more than a thin wrapper around Eloquent.
 
@@ -294,17 +287,17 @@ This is a good example of when `recordCreate()` is appropriate:
 
 * the app is inserting known bootstrap data,
 * it already knows the values to store,
-* it is not saving a nested UI form payload.
+* it is not processing a standard submitted form payload.
 
-Unlike `recordSave()`, `recordCreate()` is a more direct helper. It is useful for controlled inserts, but it is not the full relation-aware form-save pipeline.
+Unlike `recordSave()`, `recordCreate()` is a more direct helper. It is useful for controlled inserts, but it does not run the complete form-save orchestration.
 
-For delete operations, the standard delete flow calls `recordDelete($id)`, and `recordDelete()` performs permission checks before removing the row.
+For delete operations, the standard delete flow calls `recordDelete($id)`. The method removes the row and returns the number of deleted rows.
 
 ### Practical rule for Level 1
 
 Use this mental model:
 
-* `recordSave()` = the standard Hubleto save pipeline for UI and relation-aware saves.
+* `recordSave()` = the standard Hubleto save pipeline for normal form-driven saves.
 * `recordCreate()` = useful for controlled inserts such as app installation, seed data, or focused internal code.
 * raw Eloquent methods such as `create()`, `update()`, `delete()` still exist, but they bypass some Hubleto-specific lifecycle logic.
 

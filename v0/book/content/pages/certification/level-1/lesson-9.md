@@ -18,6 +18,7 @@ standard extension point to use for each requirement.
 > - How to configure useful lookup labels and lookup restrictions.
 > - How to save parent and child records through `recordSave()`.
 > - When validation and normalization are applied.
+> - How record permissions are enforced during save, read, and delete operations.
 > - How to define indexes and evolve an installed database schema.
 
 ## 1. Model, RecordManager, and migration responsibilities
@@ -26,7 +27,7 @@ Keep these responsibilities separate:
 
 | Layer | Put this here |
 | --- | --- |
-| Model | Columns, relation metadata, indexes, lookup labels, relation-loading settings |
+| Model | Columns, relation metadata, indexes, lookup labels, relation-loading settings, record permissions |
 | RecordManager | Eloquent relation methods and executable query behavior |
 | Migration | SQL tables, columns, indexes, and foreign keys |
 
@@ -295,7 +296,78 @@ pipeline.
 Model callbacks also participate in these operations. They are covered in
 Lesson 11.
 
-## 7. Defining indexes
+## 7. Record permissions
+
+Record permissions are decided by the model's `getPermissions()` method. They
+are separate from relation loading and from the application-level permission
+manager.
+
+`getPermissions()` returns four Boolean values in a fixed order:
+
+| Position | Meaning |
+| --- | --- |
+| `0` | Can create |
+| `1` | Can read |
+| `2` | Can update |
+| `3` | Can delete |
+
+A custom model can calculate these values from the current user and the record:
+
+```php
+public function getPermissions(array $record): array
+{
+  return [$canCreate, $canRead, $canUpdate, $canDelete];
+}
+```
+
+The framework model allows all four operations by default. The ERP model
+narrows record access according to the current user's record policies and, when
+present, ownership, manager, team, and sharing values. A model can override
+`getPermissions()` when it needs a more specific rule.
+
+### Permissions in `recordSave()`
+
+`recordSave()` checks permissions before validation and before the database
+write. Standard new form records use a negative ID; `recordSave()` evaluates
+their submitted values and checks the create permission. For a positive
+existing ID, it loads the original stored record and checks the update
+permission against that data.
+
+If the operation is not allowed, `recordSave()` throws a
+`NotEnoughPermissionsException` and does not continue with the write.
+
+Selected child records are saved through their own model's `recordSave()` call,
+so each child save also uses the permissions of its own model.
+
+Calling `recordCreate()`, `recordUpdate()`, or Eloquent write methods directly
+does not run the permission check performed by `recordSave()`. Use the standard
+save flow for user-submitted form records unless bypassing it is intentional.
+
+### Permissions in `recordRead()`
+
+`recordRead()` loads one record and calls `getPermissions()` for it. If the read
+permission is false, it throws `NotEnoughPermissionsException` instead of
+returning the record.
+
+For an allowed record, the returned payload contains `_PERMISSIONS`. Standard
+forms use these values to decide whether create, update, and delete actions
+should be available.
+
+Table reads use `recordReadMany()`. It checks every loaded row. An unreadable row
+is replaced by a payload containing only `_PERMISSIONS`; its record values are
+not returned.
+
+### Permissions in `recordDelete()`
+
+`recordDelete()` first reads the stored record through `recordRead()`, so the
+read permission is checked. It then checks the delete permission before
+executing the delete query. If either check fails, the record is not deleted.
+
+Frontend permission flags improve the interface, but they are not the security
+boundary. Save, read, and delete permissions are enforced again by the backend
+record methods.
+
+## 8. Defining indexes
 
 Some column types generate their standard indexes. A lookup column, for
 example, generates an index for its foreign-key column.
@@ -331,20 +403,39 @@ Column order matters in a composite index.
 Changing `indexes()` does not alter an installed database. Add the matching
 schema change in a new migration.
 
-## 8. Evolving the schema
+## 9. Evolving the schema
 
 Initial migrations use zero-padded names such as `Document_0001.php`. When the
 installed schema changes, add the next migration, such as `Document_0002.php`.
 
 The class name must match the filename without `.php`.
 
+### Initial migration vs. follow-up migration
+
+The first migration describes how to create the model's table on a fresh
+installation. Its `upgradeSchema()` normally contains `CREATE TABLE` together
+with the initial columns and indexes. Its `upgradeForeignKeys()` adds the
+initial foreign keys after the required tables exist.
+
+A follow-up migration starts from a database where the earlier migration has
+already run. It changes that existing structure with operations such as `ALTER
+TABLE ... ADD`, `ALTER TABLE ... MODIFY`, or `ALTER TABLE ... DROP`. It must not
+try to create the table again.
+
+Both a fresh installation and an upgraded installation run the migration
+sequence in order and should finish with the same schema.
+
 ### Never rewrite deployed history
 
 After `_0001` has been released or applied to another installation, treat it as
-immutable.
+immutable. Hubleto stores the latest installed schema and foreign-key migration
+versions for each model, so an installation that has already applied `_0001`
+will not run it again.
 
 Editing it makes fresh installations and upgraded installations produce
-different schemas. Add `_0002` instead.
+different schemas: a fresh installation sees the edited `_0001`, while an
+existing installation keeps the result of the old version. Add `_0002` instead
+so both installation paths receive the same change.
 
 ### Migration methods
 
@@ -424,7 +515,7 @@ replacing the initial one.
 `dry-run` lists pending schema migrations without applying them. Test the real
 migration on a disposable or development database before deployment.
 
-## 9. Recommended implementation workflow
+## 10. Recommended implementation workflow
 
 For a parent model with editable child records:
 
@@ -446,7 +537,7 @@ Test:
 - validation errors in child records,
 - fresh installation and upgrade to the same final schema.
 
-## 10. Common mistakes
+## 11. Common mistakes
 
 - Loading a larger relation graph than the screen uses.
 - Assuming that a loaded relation is automatically saved.
@@ -454,6 +545,7 @@ Test:
 - Replacing `prepareLookupQuery()` without calling its parent.
 - Exposing complete or sensitive records in lookup responses.
 - Treating `recordCreate()` as a complete form-save pipeline.
+- Relying only on frontend permission flags instead of backend record checks.
 - Changing model or index metadata without a migration.
 - Editing an already deployed `_0001` migration.
 - Adding foreign-key constraints in `upgradeSchema()` instead of
@@ -468,6 +560,7 @@ Test:
 - Keep lookup labels and responses compact.
 - Use `recordSave()` for relation-aware form saves.
 - Save only explicitly selected relations.
+- Keep record permission decisions in the model's `getPermissions()` method.
 - Use database constraints for real uniqueness rules.
 - Treat applied migrations as immutable.
 - Test both fresh-installation and upgrade paths.

@@ -11,8 +11,8 @@
 | Wednesday, Jul 8, 2026  | 1:30 PM (UTC+0) | [Lesson #5: Business Apps Development - CarRental app](lesson-5)        | [YouTube recording](https://www.youtube.com/watch?v=APYWRZ6r3l8) |
 | Wednesday, Jul 22, 2026 | 1:30 PM (UTC+0) | [Lesson #6: Business Apps Development - IpInfoTest app](lesson-6)       | [YouTube recording](https://www.youtube.com/watch?v=vmbks-cwukQ)                      |
 | Wednesday, Aug 5, 2026  | 1:30 PM (UTC+0) | [Lesson #7: Hubleto ReactUi basics](lesson-7)                        | [YouTube recording](https://www.youtube.com/watch?v=UQclL0OKL3A)                      |
-| Wednesday, Aug 19, 2026 | 1:30 PM (UTC+0) | [Lesson #8: Models, RecordManagers and Migrations, part 1](lesson-8) |                                                                                       |
-| Wednesday, Sep 2, 2026  | 1:30 PM (UTC+0) | [Lesson #9: Models, RecordManagers and Migrations, part 2](lesson-9) |                                                                                       |
+| Wednesday, Aug 19, 2026 | 1:30 PM (UTC+0) | [Lesson #8: Models, RecordManagers and Migrations, part 1](lesson-8) | [YouTube recording](https://www.youtube.com/watch?v=3LkrHKe_PXk)                      |
+| Wednesday, Sep 2, 2026  | 1:30 PM (UTC+0) | [Lesson #9: Models, RecordManagers and Migrations, part 2](lesson-9) | [YouTube recording](https://www.youtube.com/watch?v=yZwldDi5dJI)                      |
 | Wednesday, Sep 16, 2026 | 1:30 PM (UTC+0) | [Lesson #10: Description API](lesson-10)                             |                                                                                       |
 | Wednesday, Sep 30, 2026 | 1:30 PM (UTC+0) | [Lesson #11: Model callbacks](lesson-11)                             |                                                                                       |
 | Wednesday, Oct 14, 2026 | 1:30 PM (UTC+0) | [Lesson #12: Controllers](lesson-12)                                 |                                                                                       |
